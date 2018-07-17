@@ -8,12 +8,17 @@
 
 import Foundation
 
-struct Note {
+protocol Keyable {
+    var key: String { get }
+}
+
+struct Note: Codable, Keyable {
     
     var text: String
     var title: String
     let creationDate: Date
     var lastModifiedDate: Date
+    var key: String { return creationDate.description }
     
     static func ==(lhs:Note, rhs:Note) -> Bool {
         return lhs.creationDate == rhs.creationDate

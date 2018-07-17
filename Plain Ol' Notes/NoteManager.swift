@@ -38,26 +38,26 @@ class NoteManager {
     
     fileprivate var fileManager:FileManager
     fileprivate let documentsDirectory:URL?
-    fileprivate var allNotes:[Note] = []
+    var allNotes:[Note] = []
     
     init() {
         fileManager = FileManager.default
         do {
             documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         } catch {
-            NotificationCenter.default.post(name: .dataError, object: error)
+            //NotificationCenter.default.post(name: .dataError, object: error)
             documentsDirectory = nil
-        }    
+        }
     }
     
-    func renameNoteIfTitleChanged(_ note: Note) {
+    fileprivate func renameNoteIfTitleChanged(_ note: Note) {
         if let renamedNote = allNotes.findChangedTitle(for: note) {
             let newURL = documentsDirectory!.appendingPathComponent("\(note.title).txt")
             let oldURL = documentsDirectory!.appendingPathComponent("\(renamedNote.title).txt")
             do {
                 try fileManager.moveItem(at: oldURL, to: newURL)
             } catch {
-                NotificationCenter.default.post(name: .dataError, object: error)
+                //NotificationCenter.default.post(name: .dataError, object: error)
             }
         }
     }
@@ -70,7 +70,7 @@ class NoteManager {
             try note.text.write(to: fileURL, atomically: true, encoding: .utf8)
             try fileManager.setAttributes([FileAttributeKey.creationDate:note.creationDate,FileAttributeKey.modificationDate:note.lastModifiedDate], ofItemAtPath: fileURL.path)
         } catch {
-            NotificationCenter.default.post(name: .dataError, object: error)
+            //NotificationCenter.default.post(name: .dataError, object: error)
         }
     }
     
@@ -93,7 +93,7 @@ class NoteManager {
                 }
             }
         } catch {
-            NotificationCenter.default.post(name: .dataError, object: error)
+            //NotificationCenter.default.post(name: .dataError, object: error)
         }
         return allNotes
     }
@@ -109,7 +109,7 @@ class NoteManager {
                 try fileManager.removeItem(atPath: fullURL.path)
                 allNotes.remove(at: index)
             } catch {
-                NotificationCenter.default.post(name: .dataError, object: error)
+                //NotificationCenter.default.post(name: .dataError, object: error)
             }
         }
     }

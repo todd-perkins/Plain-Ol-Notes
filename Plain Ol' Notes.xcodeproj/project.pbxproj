@@ -34,6 +34,7 @@
 		529BF05620F68F260050740C /* IQUIView+IQKeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF04420F68F260050740C /* IQUIView+IQKeyboardToolbar.swift */; };
 		529BF05720F68F260050740C /* IQKeyboardManager.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 529BF04620F68F260050740C /* IQKeyboardManager.bundle */; };
 		529BF05B20F6B9460050740C /* TPExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF05A20F6B9460050740C /* TPExtensions.swift */; };
+		529BF08120FE5FA00050740C /* JSONDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF08020FE5FA00050740C /* JSONDefaults.swift */; };
 		52C18D9C20F3C8C60060D9B0 /* KMPlaceholderTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C18D9B20F3C8C60060D9B0 /* KMPlaceholderTextView.swift */; };
 		52C18D9E20F3D1120060D9B0 /* OptionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52C18D9D20F3D1120060D9B0 /* OptionsView.swift */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		529BF04420F68F260050740C /* IQUIView+IQKeyboardToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIView+IQKeyboardToolbar.swift"; sourceTree = "<group>"; };
 		529BF04620F68F260050740C /* IQKeyboardManager.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = IQKeyboardManager.bundle; sourceTree = "<group>"; };
 		529BF05A20F6B9460050740C /* TPExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TPExtensions.swift; sourceTree = "<group>"; };
+		529BF08020FE5FA00050740C /* JSONDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JSONDefaults.swift; sourceTree = "<group>"; };
 		52C18D9B20F3C8C60060D9B0 /* KMPlaceholderTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KMPlaceholderTextView.swift; sourceTree = "<group>"; };
 		52C18D9D20F3D1120060D9B0 /* OptionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OptionsView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -109,6 +111,7 @@
 				520AD7B820E4583000531ECE /* NoteCollectionController.swift */,
 				520AD7BA20E45BC100531ECE /* NoteCell.swift */,
 				520AD7BE20E59C6D00531ECE /* NoteManager.swift */,
+				529BF08020FE5FA00050740C /* JSONDefaults.swift */,
 				520AD7B620E454A600531ECE /* Note.swift */,
 				520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */,
 				52C18D9D20F3D1120060D9B0 /* OptionsView.swift */,
@@ -279,6 +282,7 @@
 				529BF05020F68F260050740C /* IQTextView.swift in Sources */,
 				529BF04C20F68F260050740C /* IQKeyboardManagerConstants.swift in Sources */,
 				52C18D9C20F3C8C60060D9B0 /* KMPlaceholderTextView.swift in Sources */,
+				529BF08120FE5FA00050740C /* JSONDefaults.swift in Sources */,
 				520AD7BB20E45BC100531ECE /* NoteCell.swift in Sources */,
 				520AD7B720E454A600531ECE /* Note.swift in Sources */,
 				520AD7B920E4583000531ECE /* NoteCollectionController.swift in Sources */,

@@ -52,9 +52,3 @@ extension UITextView {
     }
     
 }
-
-extension Notification.Name {
-    
-    static let dataError = Notification.Name("Data Error")
-    
-}

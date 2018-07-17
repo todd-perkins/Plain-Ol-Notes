@@ -12,7 +12,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     fileprivate var notes: [Note] = []
     fileprivate var currentNoteIndex = -1
-    fileprivate let noteManager = NoteManager()
+    fileprivate let noteManager = JSONDefaults<Note>()
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5
     fileprivate let columns: CGFloat = 2
@@ -25,7 +25,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     fileprivate let addButton: UIButton = {
         let btn = UIButton(type: UIButtonType.custom)
         btn.setImage(#imageLiteral(resourceName: "add_note"), for: .normal)
-
         btn.addTarget(self, action: #selector(addNote), for: .touchUpInside)
         return btn
     }()
@@ -34,8 +33,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         super.viewDidLoad()
         collectionView?.register(NoteCell.self, forCellWithReuseIdentifier: cellID)
         setupView()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .dataError, object: nil)
-        notes = noteManager.getSavedNotes()
+        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
+        notes = noteManager.getSaved()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -46,11 +45,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         }
         
         if noteEditor.noteTitle == "" || noteEditor.noteText == "" {
-            do {
-               try noteManager.delete(atIndex: currentNoteIndex)
-            } catch {
-                NotificationCenter.default.post(name: .dataError, object: error)
-            }
+            noteManager.delete(notes[currentNoteIndex])
             notes.remove(at: currentNoteIndex)
             collectionView?.deleteItems(at: [currentNoteIndexPath()])
         } else {
@@ -71,7 +66,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         note.lastModifiedDate = Date()
         notes[currentNoteIndex] = note
         collectionView?.reloadItems(at: [currentNoteIndexPath()])
-        noteManager.saveNote(note)
+        noteManager.save(note)
     }
     
     @objc fileprivate func addNote() {
