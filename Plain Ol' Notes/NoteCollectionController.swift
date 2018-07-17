@@ -49,6 +49,9 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         setupView()
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
         notes = noteManager.getSaved()
+        
+        // configure search
+        
     }
     
     override func viewDidAppear(_ animated: Bool) {
