@@ -21,9 +21,12 @@ extension Array where Iterator.Element == Note {
     
 }
 
-class NoteCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+class NoteCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
     
     fileprivate var notes: [Note] = []
+    fileprivate var filteredNotes: [Note] = []
+    fileprivate let searchController = UISearchController(searchResultsController: nil)
+    fileprivate var isFiltering: Bool { return searchController.isActive && !searchController.searchBar.text!.isEmpty }
     fileprivate var currentNoteIndex = -1
     fileprivate let noteMigrator = NoteMigrator()
     fileprivate let noteManager = JSONDefaults<Note>()
@@ -52,6 +55,10 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         
         // configure search
         
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+        //navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -78,6 +85,15 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
                 present(alert, animated: true, completion: nil)
             }
         }
+    }
+    
+    func updateSearchResults(for searchController: UISearchController) {
+        if let text = searchController.searchBar.text?.localizedLowercase, !text.isEmpty {
+            filteredNotes = notes.filter { (note) -> Bool in
+                return note.title.localizedLowercase.contains(text) || note.text.localizedLowercase.contains(text)
+            }
+        }
+        collectionView?.reloadData()
     }
     
     fileprivate func deleteCurrentNote() {
@@ -116,11 +132,11 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     fileprivate func selectAndShowNote(index: Int) {
-        if index >= notes.count {
+        if index >= notes.count || (isFiltering && index >= filteredNotes.count) {
             return
         }
         currentNoteIndex = index
-        let note = notes[currentNoteIndex]
+        let note = isFiltering ? filteredNotes[currentNoteIndex] : notes[currentNoteIndex]
         noteEditor.noteText = note.text
         noteEditor.noteTitle = note.title
         navigationController?.pushViewController(noteEditor, animated: true)
@@ -156,7 +172,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return notes.count
+        return isFiltering ? filteredNotes.count : notes.count
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
@@ -175,7 +191,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteCell
         cell.contentView.backgroundColor = .white
-        cell.note = notes[indexPath.item]
+        cell.note = isFiltering ? filteredNotes[indexPath.item] : notes[indexPath.item]
         return cell
     }
     
