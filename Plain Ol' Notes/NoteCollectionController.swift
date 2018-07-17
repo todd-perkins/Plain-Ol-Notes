@@ -8,11 +8,24 @@
 
 import UIKit
 
+extension Array where Iterator.Element == Note {
+    
+    func containsTitle(for note:Note) -> Bool {
+        for n in self {
+            if n.title == note.title && n != note {
+                return true
+            }
+        }
+        return false
+    }
+    
+}
+
 class NoteCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     fileprivate var notes: [Note] = []
     fileprivate var currentNoteIndex = -1
-    fileprivate let noteMigrator = NoteManager()
+    fileprivate let noteMigrator = NoteMigrator()
     fileprivate let noteManager = JSONDefaults<Note>()
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5

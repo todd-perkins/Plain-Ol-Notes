@@ -14,7 +14,7 @@ extension Notification.Name {
     
 }
 
-class NoteManager {
+class NoteMigrator {
     
     fileprivate var fileManager:FileManager
     fileprivate let documentsDirectory:URL?
@@ -55,22 +55,18 @@ class NoteManager {
     }
     
     func migrateNotes() {
-        //print("migrating notes....")
         loadSavedNotes()
         if allNotes.isEmpty {
-            //print("no old notes found")
             return
         }
         let jsonDefaults = JSONDefaults<Note>()
         for note in allNotes{
             jsonDefaults.save(note)
-            //print("saved note \"\(note.title)\" to new format.")
         }
         deleteAllOldNotes()
     }
     
     func deleteAllOldNotes() {
-        //print("deleting all old note files")
         do {
             let allFiles = try fileManager.contentsOfDirectory(atPath: documentsDirectory!.path)
             for file in allFiles {
@@ -78,7 +74,6 @@ class NoteManager {
                 if fileManager.isDeletableFile(atPath: fullURL.path) {
                     do {
                         try fileManager.removeItem(atPath: fullURL.path)
-                        //print("deleted file: \(file)")
                     } catch {
                         NotificationCenter.default.post(name: .migrationError, object: error)
                     }
