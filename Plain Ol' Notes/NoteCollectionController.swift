@@ -12,6 +12,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     fileprivate var notes: [Note] = []
     fileprivate var currentNoteIndex = -1
+    fileprivate let noteMigrator = NoteManager()
     fileprivate let noteManager = JSONDefaults<Note>()
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5
@@ -147,7 +148,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     @objc func handleError(notification: Notification) {
         if let error = notification.object as? Error {
-            let alert = UIAlertController(title: "Error", message: error.localizedDescription, preferredStyle: .alert)
+            let alert = UIAlertController(title: notification.name.rawValue, message: error.localizedDescription, preferredStyle: .alert)
             alert.addAction(UIAlertAction(title: "Ok", style: .cancel, handler: nil))
             present(alert, animated: true, completion: nil)
         }

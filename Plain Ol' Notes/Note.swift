@@ -8,10 +8,6 @@
 
 import Foundation
 
-protocol Keyable {
-    var key: String { get }
-}
-
 struct Note: Codable, Keyable {
     
     var text: String

@@ -8,6 +8,12 @@
 
 import UIKit
 
+protocol Keyable {
+    
+    var key: String { get }
+    
+}
+
 extension Notification.Name {
     
     static let jsonError = Notification.Name("JSON Error")

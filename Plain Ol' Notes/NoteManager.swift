@@ -8,29 +8,9 @@
 
 import Foundation
 
-enum NoteError: Error {
-    case noteDoesNotExist
-}
-
-extension Array where Iterator.Element == Note {
+extension Notification.Name {
     
-    func findChangedTitle(for note:Note) -> Note? {
-        for n in self {
-            if n == note && n.title != note.title {
-                return n
-            }
-        }
-        return nil
-    }
-    
-    func containsTitle(for note:Note) -> Bool {
-        for n in self {
-            if n.title == note.title && n != note {
-                return true
-            }
-        }
-        return false
-    }
+    static let migrationError = Notification.Name("Error Migrating Data")
     
 }
 
@@ -45,36 +25,13 @@ class NoteManager {
         do {
             documentsDirectory = try fileManager.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: false)
         } catch {
-            //NotificationCenter.default.post(name: .dataError, object: error)
+            NotificationCenter.default.post(name: .migrationError, object: error)
             documentsDirectory = nil
         }
+        migrateNotes()
     }
     
-    fileprivate func renameNoteIfTitleChanged(_ note: Note) {
-        if let renamedNote = allNotes.findChangedTitle(for: note) {
-            let newURL = documentsDirectory!.appendingPathComponent("\(note.title).txt")
-            let oldURL = documentsDirectory!.appendingPathComponent("\(renamedNote.title).txt")
-            do {
-                try fileManager.moveItem(at: oldURL, to: newURL)
-            } catch {
-                //NotificationCenter.default.post(name: .dataError, object: error)
-            }
-        }
-    }
-    
-    func saveNote(_ note:Note ) {
-        let fileName = note.title.appending(".txt")
-        let fileURL = documentsDirectory!.appendingPathComponent("\(fileName)")
-        renameNoteIfTitleChanged(note)
-        do {
-            try note.text.write(to: fileURL, atomically: true, encoding: .utf8)
-            try fileManager.setAttributes([FileAttributeKey.creationDate:note.creationDate,FileAttributeKey.modificationDate:note.lastModifiedDate], ofItemAtPath: fileURL.path)
-        } catch {
-            //NotificationCenter.default.post(name: .dataError, object: error)
-        }
-    }
-    
-    func getSavedNotes() -> [Note] {
+    func loadSavedNotes() {
         allNotes = []
         
         do {
@@ -93,29 +50,43 @@ class NoteManager {
                 }
             }
         } catch {
-            //NotificationCenter.default.post(name: .dataError, object: error)
+            NotificationCenter.default.post(name: .migrationError, object: error)
         }
-        return allNotes
     }
     
-    func delete(atIndex index: Int) throws {
-        guard let note = note(atIndex: index) else {
-            throw NoteError.noteDoesNotExist
+    func migrateNotes() {
+        //print("migrating notes....")
+        loadSavedNotes()
+        if allNotes.isEmpty {
+            //print("no old notes found")
+            return
         }
-        let fileName = note.title.appending(".txt")
-        let fullURL = documentsDirectory!.appendingPathComponent(fileName)
-        if fileManager.isDeletableFile(atPath: fullURL.path) {
-            do {
-                try fileManager.removeItem(atPath: fullURL.path)
-                allNotes.remove(at: index)
-            } catch {
-                //NotificationCenter.default.post(name: .dataError, object: error)
+        let jsonDefaults = JSONDefaults<Note>()
+        for note in allNotes{
+            jsonDefaults.save(note)
+            //print("saved note \"\(note.title)\" to new format.")
+        }
+        deleteAllOldNotes()
+    }
+    
+    func deleteAllOldNotes() {
+        //print("deleting all old note files")
+        do {
+            let allFiles = try fileManager.contentsOfDirectory(atPath: documentsDirectory!.path)
+            for file in allFiles {
+                let fullURL = documentsDirectory!.appendingPathComponent(file)
+                if fileManager.isDeletableFile(atPath: fullURL.path) {
+                    do {
+                        try fileManager.removeItem(atPath: fullURL.path)
+                        //print("deleted file: \(file)")
+                    } catch {
+                        NotificationCenter.default.post(name: .migrationError, object: error)
+                    }
+                }
             }
+        } catch {
+            NotificationCenter.default.post(name: .migrationError, object: error)
         }
-    }
-    
-    func note(atIndex index: Int) -> Note? {
-        return (allNotes.count <= index || index < 0) ? nil : allNotes[index]
     }
     
 }
