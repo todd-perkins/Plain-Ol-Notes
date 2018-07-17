@@ -58,13 +58,29 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
             return
         }
         
-        if noteEditor.noteTitle == "" || noteEditor.noteText == "" {
-            noteManager.delete(notes[currentNoteIndex])
-            notes.remove(at: currentNoteIndex)
-            collectionView?.deleteItems(at: [currentNoteIndexPath()])
+        if noteEditor.noteTitle == "" && noteEditor.noteText == "" {
+            deleteCurrentNote()
         } else {
             updateCurrentNote()
+            
+            if noteEditor.noteTitle == "" || noteEditor.noteText == "" {
+                let missingText = noteEditor.noteTitle == "" ? "a title" : "text"
+                let alert = UIAlertController(title: "Missing Data", message: "Your note is missing \(missingText). Do you want to delete the note?", preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: "Cancel", style: .cancel, handler: { (action) in
+                    self.selectAndShowNote(index: self.currentNoteIndex)
+                }))
+                alert.addAction(UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
+                    self.deleteCurrentNote()
+                }))
+                present(alert, animated: true, completion: nil)
+            }
         }
+    }
+    
+    fileprivate func deleteCurrentNote() {
+        noteManager.delete(notes[currentNoteIndex])
+        notes.remove(at: currentNoteIndex)
+        collectionView?.deleteItems(at: [currentNoteIndexPath()])
     }
     
     fileprivate func updateCurrentNote() {
@@ -86,6 +102,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     @objc fileprivate func addNote() {
         let note = Note(text: "", title: "", creationDate: Date(), lastModifiedDate: Date())
         notes.append(note)
+        noteManager.save(note)
         currentNoteIndex = notes.count - 1
         collectionView?.insertItems(at: [currentNoteIndexPath()])
         selectAndShowNote(index: notes.count - 1)

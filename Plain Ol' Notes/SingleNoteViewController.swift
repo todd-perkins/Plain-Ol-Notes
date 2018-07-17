@@ -140,10 +140,8 @@ class SingleNoteViewController: UIViewController, UITextViewDelegate {
     
     func textViewDidChange(_ textView: UITextView) {
         if textView === titleTextView {
-            titleTextView.truncateAtLineBreaks()
+            titleTextView.truncateAtFirstLineBreak()
         }
-        let range = NSRange(location: textView.text.count - 1, length: 1)
-        textView.scrollRangeToVisible(range)
     }
     
 }

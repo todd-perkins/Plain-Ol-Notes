@@ -45,7 +45,7 @@ extension UIView {
 
 extension UITextView {
     
-    func truncateAtLineBreaks() {
+    func truncateAtFirstLineBreak() {
         if let indexOfFirstLineBreak = text.index(of: "\n") {
             text = String(text[text.startIndex..<indexOfFirstLineBreak])
         }
