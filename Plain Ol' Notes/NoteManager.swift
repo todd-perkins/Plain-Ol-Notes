@@ -6,7 +6,8 @@
 //  Copyright © 2018 Todd Perkins. All rights reserved.
 //
 
-import Foundation
+import UIKit
+import CoreData
 
 extension Notification.Name {
     
@@ -59,9 +60,18 @@ class NoteMigrator {
         if allNotes.isEmpty {
             return
         }
-        let jsonDefaults = JSONDefaults<Note>()
         for note in allNotes{
-            jsonDefaults.save(note)
+            if let appDelegate = UIApplication.shared.delegate as? AppDelegate {
+                let context = appDelegate.persistentContainer.viewContext
+                if let cdNote = NSEntityDescription.insertNewObject(forEntityName: "CDNote", into: context) as? CDNote {
+                    cdNote.text = note.text
+                    cdNote.title = note.title
+                    cdNote.creationDate = note.creationDate
+                    cdNote.lastModifiedDate = note.lastModifiedDate
+                    print("saved note \(note.title) into core data")
+                }
+                appDelegate.saveContext()
+            }
         }
         deleteAllOldNotes()
     }
