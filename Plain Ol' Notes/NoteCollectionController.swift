@@ -51,14 +51,12 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         collectionView?.register(NoteCell.self, forCellWithReuseIdentifier: cellID)
         setupView()
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .migrationError, object: nil)
         notes = noteManager.getSaved()
-        
-        // configure search
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
         navigationItem.searchController = searchController
-        //navigationItem.hidesSearchBarWhenScrolling = false
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -89,8 +87,22 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text?.localizedLowercase, !text.isEmpty {
+            //let words: [String] = text.replacingOccurrences(of: "'", with: "").split(separator: " ").map({ String($0).localizedLowercase })
+            let words: [String] = text.components(separatedBy: .punctuationCharacters)
+                .joined()
+                .components(separatedBy: .whitespacesAndNewlines)
+                .filter({ !$0.isEmpty })
+            print(words)
+            
             filteredNotes = notes.filter { (note) -> Bool in
-                return note.title.localizedLowercase.contains(text) || note.text.localizedLowercase.contains(text)
+                let titleText = note.title.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
+                let bodyText = note.text.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
+                for word in words {
+                    if !titleText.contains(word) && !bodyText.contains(word) {
+                        return false
+                    }
+                }
+                return true
             }
         }
         collectionView?.reloadData()
