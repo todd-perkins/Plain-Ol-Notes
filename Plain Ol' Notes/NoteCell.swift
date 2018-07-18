@@ -46,6 +46,15 @@ class NoteCell: UICollectionViewCell {
         }
     }
     
+    var cdNote: CDNote? {
+        didSet {
+            guard let cdNote = cdNote, let lastModfied = cdNote.lastModifiedDate else { return }
+            textView.text = cdNote.text
+            creationDateTextView.text = "Modified \(dayInRelationToToday(date: lastModfied))"
+            titleTextView.text = cdNote.title
+        }
+    }
+    
     func dayInRelationToToday(date: Date) -> String {
         let calendar = Calendar.current
         if calendar.isDateInToday(date) {

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import CoreData
 
 extension Array where Iterator.Element == Note {
     
@@ -23,8 +24,8 @@ extension Array where Iterator.Element == Note {
 
 class NoteCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
     
-    fileprivate var notes: [Note] = []
-    fileprivate var filteredNotes: [Note] = []
+    fileprivate var notes: [CDNote] = []
+    fileprivate var filteredNotes: [CDNote] = []
     fileprivate let searchController = UISearchController(searchResultsController: nil)
     fileprivate var isFiltering: Bool { return searchController.isActive && !searchController.searchBar.text!.isEmpty }
     fileprivate var currentNoteIndex = -1
@@ -33,6 +34,12 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5
     fileprivate let columns: CGFloat = 2
+    fileprivate var appDelegate: AppDelegate? {
+        return (UIApplication.shared.delegate as? AppDelegate)
+    }
+    fileprivate var context: NSManagedObjectContext? {
+        return appDelegate?.persistentContainer.viewContext
+    }
     
     fileprivate let noteEditor: SingleNoteViewController = {
         let editor = SingleNoteViewController()
@@ -52,7 +59,15 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         setupView()
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .migrationError, object: nil)
-        notes = noteManager.getSaved()
+        //notes = noteManager.getSaved()
+        do {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDNote")
+            if let loadedNotes = try context?.fetch(request) as? [CDNote] {
+                notes = loadedNotes
+            }
+        } catch {
+            NotificationCenter.default.post(name: .migrationError, object: error)
+        }
         
         searchController.searchResultsUpdater = self
         searchController.obscuresBackgroundDuringPresentation = false
@@ -87,7 +102,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     func updateSearchResults(for searchController: UISearchController) {
         if let text = searchController.searchBar.text?.localizedLowercase, !text.isEmpty {
-            //let words: [String] = text.replacingOccurrences(of: "'", with: "").split(separator: " ").map({ String($0).localizedLowercase })
             let words: [String] = text.components(separatedBy: .punctuationCharacters)
                 .joined()
                 .components(separatedBy: .whitespacesAndNewlines)
@@ -95,8 +109,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
             print(words)
             
             filteredNotes = notes.filter { (note) -> Bool in
-                let titleText = note.title.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
-                let bodyText = note.text.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
+                let titleText = note.title!.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
+                let bodyText = note.text!.localizedLowercase.components(separatedBy: .punctuationCharacters).joined()
                 for word in words {
                     if !titleText.contains(word) && !bodyText.contains(word) {
                         return false
@@ -109,34 +123,49 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     fileprivate func deleteCurrentNote() {
-        noteManager.delete(notes[currentNoteIndex])
-        notes.remove(at: currentNoteIndex)
-        collectionView?.deleteItems(at: [currentNoteIndexPath()])
+        do {
+            let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDNote")
+            request.fetchLimit = 1
+            request.predicate = NSPredicate(format: "creationDate == %@", notes[currentNoteIndex].creationDate! as NSDate)
+            if let noteToDelete = (try context?.fetch(request) as? [CDNote])?.first {
+                context?.delete(noteToDelete)
+                appDelegate?.saveContext()
+                notes.remove(at: currentNoteIndex)
+                collectionView?.deleteItems(at: [currentNoteIndexPath()])
+            }
+        } catch {
+            NotificationCenter.default.post(name: .migrationError, object: error)
+        }
     }
     
     fileprivate func updateCurrentNote() {
-        var note = notes[currentNoteIndex]
+        let note = notes[currentNoteIndex]
         note.text = noteEditor.noteText
         note.title = noteEditor.noteTitle
-        var i = 1
-        let originalTitle = note.title
-        while notes.containsTitle(for: note) {
-            note.title = originalTitle + " (\(i))"
-            i += 1
-        }
         note.lastModifiedDate = Date()
         notes[currentNoteIndex] = note
+        appDelegate?.saveContext()
+        
         collectionView?.reloadItems(at: [currentNoteIndexPath()])
-        noteManager.save(note)
     }
     
     @objc fileprivate func addNote() {
-        let note = Note(text: "", title: "", creationDate: Date(), lastModifiedDate: Date())
-        notes.append(note)
-        noteManager.save(note)
+        // Core Data
+        if let context = context {
+            if let cdNote = NSEntityDescription.insertNewObject(forEntityName: "CDNote", into: context) as? CDNote {
+                cdNote.text = ""
+                cdNote.title = ""
+                cdNote.creationDate = Date()
+                cdNote.lastModifiedDate = Date()
+                notes.append(cdNote)
+            }
+            appDelegate?.saveContext()
+        }
+        
         currentNoteIndex = notes.count - 1
         collectionView?.insertItems(at: [currentNoteIndexPath()])
         selectAndShowNote(index: notes.count - 1)
+        
     }
     
     fileprivate func currentNoteIndexPath() -> IndexPath {
@@ -149,8 +178,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         }
         currentNoteIndex = index
         let note = isFiltering ? filteredNotes[currentNoteIndex] : notes[currentNoteIndex]
-        noteEditor.noteText = note.text
-        noteEditor.noteTitle = note.title
+        noteEditor.noteText = note.text ?? ""
+        noteEditor.noteTitle = note.title ?? ""
         navigationController?.pushViewController(noteEditor, animated: true)
     }
     
@@ -204,7 +233,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteCell
         //let colors: [UIColor] = [.noteBlue, .noteGreen, .notePeach, .noteOrange, .noteYellow, .white]
         //cell.contentView.backgroundColor = colors[Int(arc4random_uniform(UInt32(colors.count)))]
-        cell.note = isFiltering ? filteredNotes[indexPath.item] : notes[indexPath.item]
+        cell.cdNote = isFiltering ? filteredNotes[indexPath.item] : notes[indexPath.item]
+        cell.contentView.backgroundColor = .white
         return cell
     }
     

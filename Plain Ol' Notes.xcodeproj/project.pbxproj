@@ -16,6 +16,7 @@
 		520AD7BB20E45BC100531ECE /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BA20E45BC100531ECE /* NoteCell.swift */; };
 		520AD7BD20E56A0200531ECE /* SingleNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */; };
 		520AD7BF20E59C6D00531ECE /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BE20E59C6D00531ECE /* NoteManager.swift */; };
+		52503DF920FFEB1F009B60F8 /* NoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52503DF720FFEB1F009B60F8 /* NoteModel.xcdatamodeld */; };
 		529BF04720F68F260050740C /* IQNSArray+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03120F68F260050740C /* IQNSArray+Sort.swift */; };
 		529BF04820F68F260050740C /* IQUIScrollView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */; };
 		529BF04920F68F260050740C /* IQUITextFieldView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03320F68F260050740C /* IQUITextFieldView+Additions.swift */; };
@@ -51,6 +52,7 @@
 		520AD7BA20E45BC100531ECE /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleNoteViewController.swift; sourceTree = "<group>"; };
 		520AD7BE20E59C6D00531ECE /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
+		52503DF820FFEB1F009B60F8 /* NoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NoteModel.xcdatamodel; sourceTree = "<group>"; };
 		529BF03120F68F260050740C /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
 		529BF03320F68F260050740C /* IQUITextFieldView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUITextFieldView+Additions.swift"; sourceTree = "<group>"; };
@@ -89,6 +91,7 @@
 		520AD79820E4539300531ECE = {
 			isa = PBXGroup;
 			children = (
+				52503DF720FFEB1F009B60F8 /* NoteModel.xcdatamodeld */,
 				520AD7A320E4539300531ECE /* Plain Ol' Notes */,
 				520AD7A220E4539300531ECE /* Products */,
 			);
@@ -266,6 +269,7 @@
 				529BF05320F68F260050740C /* IQPreviousNextView.swift in Sources */,
 				529BF05420F68F260050740C /* IQTitleBarButtonItem.swift in Sources */,
 				529BF05B20F6B9460050740C /* TPExtensions.swift in Sources */,
+				52503DF920FFEB1F009B60F8 /* NoteModel.xcdatamodeld in Sources */,
 				520AD7BF20E59C6D00531ECE /* NoteManager.swift in Sources */,
 				529BF05120F68F260050740C /* IQBarButtonItem.swift in Sources */,
 				529BF05620F68F260050740C /* IQUIView+IQKeyboardToolbar.swift in Sources */,
@@ -490,6 +494,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		52503DF720FFEB1F009B60F8 /* NoteModel.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				52503DF820FFEB1F009B60F8 /* NoteModel.xcdatamodel */,
+			);
+			currentVersion = 52503DF820FFEB1F009B60F8 /* NoteModel.xcdatamodel */;
+			path = NoteModel.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 520AD79920E4539300531ECE /* Project object */;
 }
