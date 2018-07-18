@@ -16,6 +16,12 @@ extension UIColor {
     static let noteLighterGray = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)
     static let noteLightestGray = UIColor(red: 0.98, green: 0.98, blue: 0.98, alpha: 1)
     
+    // bonus colors
+    static let noteGreen = UIColor(red: 217 / 255, green: 229 / 255, blue: 214 / 255, alpha: 1)
+    static let noteYellow = UIColor(red: 237 / 255, green: 222 / 255, blue: 164 / 255, alpha: 1)
+    static let notePeach = UIColor(red: 247 / 255, green: 160 / 255, blue: 114 / 255, alpha: 1)
+    static let noteOrange = UIColor(red: 255 / 255, green: 155 / 255, blue: 66 / 255, alpha: 1)
+    
 }
 
 extension UIView {

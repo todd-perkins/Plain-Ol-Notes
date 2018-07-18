@@ -202,7 +202,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteCell
-        cell.contentView.backgroundColor = .white
+        //let colors: [UIColor] = [.noteBlue, .noteGreen, .notePeach, .noteOrange, .noteYellow, .white]
+        //cell.contentView.backgroundColor = colors[Int(arc4random_uniform(UInt32(colors.count)))]
         cell.note = isFiltering ? filteredNotes[indexPath.item] : notes[indexPath.item]
         return cell
     }
