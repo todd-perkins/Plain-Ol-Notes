@@ -11,6 +11,7 @@ import UIKit
 extension UIColor {
     
     static let noteBlue = UIColor(red: 0, green: 178.0 / 255.0, blue: 1, alpha: 1)
+    static let noteDarkBlue = UIColor(red: 0, green: 126.0 / 255.0, blue: 167.0 / 255.0, alpha: 1)
     static let noteDarkGray = UIColor(red: 0.25, green: 0.25, blue: 0.25, alpha: 1)
     static let noteLightGray = UIColor(red: 0.9, green: 0.9, blue: 0.9, alpha: 1)
     static let noteLighterGray = UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1)

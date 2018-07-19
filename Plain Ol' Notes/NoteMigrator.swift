@@ -68,7 +68,6 @@ class NoteMigrator {
                     cdNote.title = note.title
                     cdNote.creationDate = note.creationDate
                     cdNote.lastModifiedDate = note.lastModifiedDate
-                    print("saved note \(note.title) into core data")
                 }
                 appDelegate.saveContext()
             }

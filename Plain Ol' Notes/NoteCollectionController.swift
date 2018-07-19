@@ -30,7 +30,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     fileprivate var isFiltering: Bool { return searchController.isActive && !searchController.searchBar.text!.isEmpty }
     fileprivate var currentNoteIndex = -1
     fileprivate let noteMigrator = NoteMigrator()
-    fileprivate let noteManager = JSONDefaults<Note>()
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5
     fileprivate let columns: CGFloat = 2
@@ -59,7 +58,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         setupView()
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .migrationError, object: nil)
-        //notes = noteManager.getSaved()
         do {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDNote")
             if let loadedNotes = try context?.fetch(request) as? [CDNote] {
@@ -192,6 +190,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     fileprivate func setupView() {
+        navigationController?.navigationBar.barStyle = .default
         collectionView?.backgroundColor = .noteLightGray
         collectionView?.contentInset = UIEdgeInsets(top: padding, left: padding, bottom: padding, right: padding)
         navigationController?.navigationBar.tintColor = .noteBlue
@@ -218,7 +217,15 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width / columns - padding * 1.5
-        return CGSize(width: width, height: width)
+//        let fullWidth = CGSize(width: width * 2 + padding, height: width * 0.76)
+//        let tall = CGSize(width: width, height: width * 2)
+        let square = CGSize(width: width, height: width)
+//        let half = CGSize(width: width, height: width / 2)
+//        let sizes = [tall,square, half]
+//        return isFiltering ? square : fullWidth
+//        //return indexPath.item % 3 == 0 ? fullWidth : square
+//        //return sizes[Int(arc4random_uniform(UInt32(sizes.count)))]
+        return square
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {

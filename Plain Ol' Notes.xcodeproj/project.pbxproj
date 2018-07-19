@@ -15,7 +15,7 @@
 		520AD7B920E4583000531ECE /* NoteCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7B820E4583000531ECE /* NoteCollectionController.swift */; };
 		520AD7BB20E45BC100531ECE /* NoteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BA20E45BC100531ECE /* NoteCell.swift */; };
 		520AD7BD20E56A0200531ECE /* SingleNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */; };
-		520AD7BF20E59C6D00531ECE /* NoteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BE20E59C6D00531ECE /* NoteManager.swift */; };
+		520AD7BF20E59C6D00531ECE /* NoteMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */; };
 		52503DF920FFEB1F009B60F8 /* NoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52503DF720FFEB1F009B60F8 /* NoteModel.xcdatamodeld */; };
 		529BF04720F68F260050740C /* IQNSArray+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03120F68F260050740C /* IQNSArray+Sort.swift */; };
 		529BF04820F68F260050740C /* IQUIScrollView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */; };
@@ -51,7 +51,7 @@
 		520AD7B820E4583000531ECE /* NoteCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCollectionController.swift; sourceTree = "<group>"; };
 		520AD7BA20E45BC100531ECE /* NoteCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteCell.swift; sourceTree = "<group>"; };
 		520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleNoteViewController.swift; sourceTree = "<group>"; };
-		520AD7BE20E59C6D00531ECE /* NoteManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteManager.swift; sourceTree = "<group>"; };
+		520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMigrator.swift; sourceTree = "<group>"; };
 		52503DF820FFEB1F009B60F8 /* NoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NoteModel.xcdatamodel; sourceTree = "<group>"; };
 		529BF03120F68F260050740C /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
@@ -108,14 +108,13 @@
 		520AD7A320E4539300531ECE /* Plain Ol' Notes */ = {
 			isa = PBXGroup;
 			children = (
+				5297B56C2101454E0018EE47 /* Legacy Data Classes */,
 				529BF02F20F68F260050740C /* IQKeyboardManagerSwift */,
 				52C18D9B20F3C8C60060D9B0 /* KMPlaceholderTextView.swift */,
 				520AD7A420E4539300531ECE /* AppDelegate.swift */,
 				520AD7B820E4583000531ECE /* NoteCollectionController.swift */,
 				520AD7BA20E45BC100531ECE /* NoteCell.swift */,
-				520AD7BE20E59C6D00531ECE /* NoteManager.swift */,
-				529BF08020FE5FA00050740C /* JSONDefaults.swift */,
-				520AD7B620E454A600531ECE /* Note.swift */,
+				520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */,
 				520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */,
 				52C18D9D20F3D1120060D9B0 /* OptionsView.swift */,
 				529BF05A20F6B9460050740C /* TPExtensions.swift */,
@@ -125,6 +124,15 @@
 				520AD7B020E4539500531ECE /* Info.plist */,
 			);
 			path = "Plain Ol' Notes";
+			sourceTree = "<group>";
+		};
+		5297B56C2101454E0018EE47 /* Legacy Data Classes */ = {
+			isa = PBXGroup;
+			children = (
+				529BF08020FE5FA00050740C /* JSONDefaults.swift */,
+				520AD7B620E454A600531ECE /* Note.swift */,
+			);
+			path = "Legacy Data Classes";
 			sourceTree = "<group>";
 		};
 		529BF02F20F68F260050740C /* IQKeyboardManagerSwift */ = {
@@ -270,7 +278,7 @@
 				529BF05420F68F260050740C /* IQTitleBarButtonItem.swift in Sources */,
 				529BF05B20F6B9460050740C /* TPExtensions.swift in Sources */,
 				52503DF920FFEB1F009B60F8 /* NoteModel.xcdatamodeld in Sources */,
-				520AD7BF20E59C6D00531ECE /* NoteManager.swift in Sources */,
+				520AD7BF20E59C6D00531ECE /* NoteMigrator.swift in Sources */,
 				529BF05120F68F260050740C /* IQBarButtonItem.swift in Sources */,
 				529BF05620F68F260050740C /* IQUIView+IQKeyboardToolbar.swift in Sources */,
 				529BF04820F68F260050740C /* IQUIScrollView+Additions.swift in Sources */,
