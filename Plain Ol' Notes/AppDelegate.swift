@@ -87,7 +87,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
         // the background view that shows when main view is masked
         let maskBgColor = UIView(frame: navigationController.view.frame)
         maskBgColor.backgroundColor = .noteBlue
-        window!.addSubview(maskBgColor)
+        window?.addSubview(maskBgColor)
         window?.sendSubview(toBack: maskBgColor)
         
         // white background fades to app background
