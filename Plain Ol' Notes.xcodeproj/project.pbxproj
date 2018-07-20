@@ -17,8 +17,9 @@
 		520AD7BD20E56A0200531ECE /* SingleNoteViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */; };
 		520AD7BF20E59C6D00531ECE /* NoteMigrator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */; };
 		52503DF920FFEB1F009B60F8 /* NoteModel.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 52503DF720FFEB1F009B60F8 /* NoteModel.xcdatamodeld */; };
-		5297B56E210249B80018EE47 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5297B56D210249B80018EE47 /* LICENSE.md */; };
+		5297B56E210249B80018EE47 /* IQ_LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5297B56D210249B80018EE47 /* IQ_LICENSE.md */; };
 		5297B57121024A000018EE47 /* LICENSE.md in Resources */ = {isa = PBXBuildFile; fileRef = 5297B57021024A000018EE47 /* LICENSE.md */; };
+		5297B57321028D8A0018EE47 /* NoteLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5297B57221028D8A0018EE47 /* NoteLayout.swift */; };
 		529BF04720F68F260050740C /* IQNSArray+Sort.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03120F68F260050740C /* IQNSArray+Sort.swift */; };
 		529BF04820F68F260050740C /* IQUIScrollView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */; };
 		529BF04920F68F260050740C /* IQUITextFieldView+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 529BF03320F68F260050740C /* IQUITextFieldView+Additions.swift */; };
@@ -55,8 +56,9 @@
 		520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SingleNoteViewController.swift; sourceTree = "<group>"; };
 		520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteMigrator.swift; sourceTree = "<group>"; };
 		52503DF820FFEB1F009B60F8 /* NoteModel.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = NoteModel.xcdatamodel; sourceTree = "<group>"; };
-		5297B56D210249B80018EE47 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		5297B56D210249B80018EE47 /* IQ_LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = IQ_LICENSE.md; sourceTree = "<group>"; };
 		5297B57021024A000018EE47 /* LICENSE.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		5297B57221028D8A0018EE47 /* NoteLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoteLayout.swift; sourceTree = "<group>"; };
 		529BF03120F68F260050740C /* IQNSArray+Sort.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQNSArray+Sort.swift"; sourceTree = "<group>"; };
 		529BF03220F68F260050740C /* IQUIScrollView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUIScrollView+Additions.swift"; sourceTree = "<group>"; };
 		529BF03320F68F260050740C /* IQUITextFieldView+Additions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "IQUITextFieldView+Additions.swift"; sourceTree = "<group>"; };
@@ -117,6 +119,7 @@
 				5297B56F210249C60018EE47 /* KMPlaceholderTextView */,
 				520AD7A420E4539300531ECE /* AppDelegate.swift */,
 				520AD7B820E4583000531ECE /* NoteCollectionController.swift */,
+				5297B57221028D8A0018EE47 /* NoteLayout.swift */,
 				520AD7BA20E45BC100531ECE /* NoteCell.swift */,
 				520AD7BE20E59C6D00531ECE /* NoteMigrator.swift */,
 				520AD7BC20E56A0200531ECE /* SingleNoteViewController.swift */,
@@ -151,7 +154,7 @@
 		529BF02F20F68F260050740C /* IQKeyboardManagerSwift */ = {
 			isa = PBXGroup;
 			children = (
-				5297B56D210249B80018EE47 /* LICENSE.md */,
+				5297B56D210249B80018EE47 /* IQ_LICENSE.md */,
 				529BF03020F68F260050740C /* Categories */,
 				529BF03620F68F260050740C /* Constants */,
 				529BF03920F68F260050740C /* IQKeyboardManager.swift */,
@@ -272,7 +275,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5297B56E210249B80018EE47 /* LICENSE.md in Resources */,
+				5297B56E210249B80018EE47 /* IQ_LICENSE.md in Resources */,
 				520AD7AF20E4539500531ECE /* LaunchScreen.storyboard in Resources */,
 				520AD7AC20E4539500531ECE /* Assets.xcassets in Resources */,
 				529BF05720F68F260050740C /* IQKeyboardManager.bundle in Resources */,
@@ -307,6 +310,7 @@
 				529BF04B20F68F260050740C /* IQUIViewController+Additions.swift in Sources */,
 				529BF04E20F68F260050740C /* IQKeyboardManager.swift in Sources */,
 				529BF04920F68F260050740C /* IQUITextFieldView+Additions.swift in Sources */,
+				5297B57321028D8A0018EE47 /* NoteLayout.swift in Sources */,
 				529BF05020F68F260050740C /* IQTextView.swift in Sources */,
 				529BF04C20F68F260050740C /* IQKeyboardManagerConstants.swift in Sources */,
 				52C18D9C20F3C8C60060D9B0 /* KMPlaceholderTextView.swift in Sources */,

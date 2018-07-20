@@ -30,6 +30,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         
+        //let layout = NoteLayout()
         let layout = UICollectionViewFlowLayout()
         let mainView = NoteCollectionController(collectionViewLayout: layout)
         let navigationController = UINavigationController(rootViewController: mainView)
@@ -135,6 +136,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, CAAnimationDelegate {
 
     func animationDidStop(_ anim: CAAnimation, finished flag: Bool) {
         window?.rootViewController?.view.layer.mask = nil
+        window?.backgroundColor = .black
     }
     
     // MARK: - Core Data stack

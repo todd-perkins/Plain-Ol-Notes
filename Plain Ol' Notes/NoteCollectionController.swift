@@ -9,7 +9,7 @@
 import UIKit
 import CoreData
 
-class NoteCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout, UISearchResultsUpdating {
+class NoteCollectionController: UICollectionViewController, UISearchResultsUpdating, UICollectionViewDelegateFlowLayout {
     
     fileprivate var notes: [CDNote] = []
     fileprivate var filteredNotes: [CDNote] = []
@@ -18,8 +18,8 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     fileprivate var currentNoteIndex = -1
     fileprivate let noteMigrator = NoteMigrator()
     fileprivate let cellID = "noteCell"
-    fileprivate let padding: CGFloat = 5
-    fileprivate let columns: CGFloat = 2
+    fileprivate let padding: CGFloat = 4
+    //fileprivate let columns: CGFloat = 3
     
     fileprivate var appDelegate: AppDelegate? {
         return (UIApplication.shared.delegate as? AppDelegate)
@@ -208,8 +208,12 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        let width = view.frame.width / columns - padding * 1.5
-        let square = CGSize(width: width, height: width)
+        let leftRightPadding = collectionView.contentInset.left + collectionView.contentInset.right
+        let bigItemPercent: CGFloat = 0.6
+        let newWidth = (indexPath.item % 4 == 0 || indexPath.item % 4 == 3) ? collectionView.frame.width * (1.0 - bigItemPercent) : collectionView.frame.width * bigItemPercent
+        let width = newWidth - leftRightPadding
+        let height: CGFloat = 160/*(indexPath.item % 4 == 2 || indexPath.item % 4 == 3) ? 180 : 220*/
+        let square = CGSize(width: width + padding / 2, height: height)
         return square
     }
     
