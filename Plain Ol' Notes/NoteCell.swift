@@ -37,15 +37,6 @@ class NoteCell: UICollectionViewCell {
         return textView
     }()
     
-    var note: Note? {
-        didSet {
-            guard let note = note else { return }
-            textView.text = note.text
-            creationDateTextView.text = "Modified \(dayInRelationToToday(date: note.lastModifiedDate))"
-            titleTextView.text = note.title
-        }
-    }
-    
     var cdNote: CDNote? {
         didSet {
             guard let cdNote = cdNote, let lastModfied = cdNote.lastModifiedDate else { return }

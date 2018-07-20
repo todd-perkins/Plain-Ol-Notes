@@ -33,9 +33,11 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     fileprivate let cellID = "noteCell"
     fileprivate let padding: CGFloat = 5
     fileprivate let columns: CGFloat = 2
+    
     fileprivate var appDelegate: AppDelegate? {
         return (UIApplication.shared.delegate as? AppDelegate)
     }
+    
     fileprivate var context: NSManagedObjectContext? {
         return appDelegate?.persistentContainer.viewContext
     }
@@ -56,7 +58,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         super.viewDidLoad()
         collectionView?.register(NoteCell.self, forCellWithReuseIdentifier: cellID)
         setupView()
-        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .jsonError, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .migrationError, object: nil)
         do {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDNote")
@@ -217,14 +218,7 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let width = view.frame.width / columns - padding * 1.5
-//        let fullWidth = CGSize(width: width * 2 + padding, height: width * 0.76)
-//        let tall = CGSize(width: width, height: width * 2)
         let square = CGSize(width: width, height: width)
-//        let half = CGSize(width: width, height: width / 2)
-//        let sizes = [tall,square, half]
-//        return isFiltering ? square : fullWidth
-//        //return indexPath.item % 3 == 0 ? fullWidth : square
-//        //return sizes[Int(arc4random_uniform(UInt32(sizes.count)))]
         return square
     }
     
@@ -238,8 +232,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! NoteCell
-        //let colors: [UIColor] = [.noteBlue, .noteGreen, .notePeach, .noteOrange, .noteYellow, .white]
-        //cell.contentView.backgroundColor = colors[Int(arc4random_uniform(UInt32(colors.count)))]
         cell.cdNote = isFiltering ? filteredNotes[indexPath.item] : notes[indexPath.item]
         cell.contentView.backgroundColor = .white
         return cell
