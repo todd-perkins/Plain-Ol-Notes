@@ -142,7 +142,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
     }
     
     @objc fileprivate func addNote() {
-        // Core Data
         if let context = context {
             if let cdNote = NSEntityDescription.insertNewObject(forEntityName: "CDNote", into: context) as? CDNote {
                 cdNote.text = ""
@@ -157,7 +156,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         currentNoteIndex = notes.count - 1
         collectionView?.insertItems(at: [currentNoteIndexPath()])
         selectAndShowNote(index: notes.count - 1)
-        
     }
     
     fileprivate func currentNoteIndexPath() -> IndexPath {
