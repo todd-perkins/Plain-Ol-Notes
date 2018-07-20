@@ -45,7 +45,17 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         super.viewDidLoad()
         collectionView?.register(NoteCell.self, forCellWithReuseIdentifier: cellID)
         setupView()
+        setupData()
+        searchController.searchResultsUpdater = self
+        searchController.obscuresBackgroundDuringPresentation = false
+        navigationItem.searchController = searchController
+    }
+    
+    fileprivate func setupData() {
         NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .migrationError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .dataSavingError, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(handleError(notification:)), name: .dataLoadingError, object: nil)
+        
         do {
             let request = NSFetchRequest<NSFetchRequestResult>(entityName: "CDNote")
             if let loadedNotes = try context?.fetch(request) as? [CDNote] {
@@ -54,10 +64,6 @@ class NoteCollectionController: UICollectionViewController, UICollectionViewDele
         } catch {
             NotificationCenter.default.post(name: .migrationError, object: error)
         }
-        
-        searchController.searchResultsUpdater = self
-        searchController.obscuresBackgroundDuringPresentation = false
-        navigationItem.searchController = searchController
     }
     
     override func viewDidAppear(_ animated: Bool) {
